@@ -1,0 +1,430 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Modul 6",
+        "description": "Dokumentasi API untuk Modul 6",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/kategori": {
+            "get": {
+                "tags": [
+                    "Kategori"
+                ],
+                "summary": "Ambil semua kategori",
+                "operationId": "2338314090a81813db8257437b649a2f",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data kategori"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Kategori"
+                ],
+                "summary": "Buat kategori baru",
+                "operationId": "525e59144d4bfe9d5462f205e3828dc9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_kategori": {
+                                        "type": "string",
+                                        "example": "Elektronik"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Barang elektronik"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Kategori berhasil dibuat"
+                    },
+                    "400": {
+                        "description": "Data tidak valid"
+                    }
+                }
+            }
+        },
+        "/api/kategori/{id}": {
+            "get": {
+                "tags": [
+                    "Kategori"
+                ],
+                "summary": "Ambil kategori berdasarkan ID",
+                "operationId": "4e5f418e3df1ff50fadd87ced238b8eb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Kategori",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data kategori ditemukan"
+                    },
+                    "404": {
+                        "description": "Kategori tidak ditemukan"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Kategori"
+                ],
+                "summary": "Perbarui kategori berdasarkan ID",
+                "operationId": "ec0c9bfd9ce739ddd5ec1d0dbd1414d6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Kategori",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_kategori": {
+                                        "type": "string",
+                                        "example": "Elektronik"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Barang elektronik"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Kategori berhasil diperbarui"
+                    },
+                    "404": {
+                        "description": "Kategori tidak ditemukan"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Kategori"
+                ],
+                "summary": "Hapus kategori berdasarkan ID",
+                "operationId": "8fdbfc36b8861bda24d0a94615d9b6d2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Kategori",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Kategori berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Kategori tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/produk": {
+            "get": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Mendapatkan semua data produk",
+                "operationId": "bee08f5ea79b460f60877927ae5a965d",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data kategori"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Menambahkan produk baru",
+                "operationId": "b79a4ad860d92b94a590453a3a02f2da",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_produk": {
+                                        "type": "string",
+                                        "example": "Laptop"
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 15000000
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Laptop gaming"
+                                    },
+                                    "kategori_id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produk berhasil dibuat"
+                    },
+                    "400": {
+                        "description": "Data yang dikirim tidak valid"
+                    }
+                }
+            }
+        },
+        "/api/produk/{id}": {
+            "get": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Mendapatkan detail produk berdasarkan ID",
+                "operationId": "ac6f9e7c23ddeb1cb41c388dbb11a917",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Produk",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail produk ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "nama_produk": {
+                                            "type": "string"
+                                        },
+                                        "harga": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "deskripsi": {
+                                            "type": "string"
+                                        },
+                                        "kategori_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produk tidak ditemukan"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Memperbarui produk berdasarkan ID",
+                "operationId": "d6e90f59b9f07c80a694a61143146c86",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Produk",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_produk": {
+                                        "type": "string",
+                                        "example": "Laptop"
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 15000000
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Laptop gaming"
+                                    },
+                                    "kategori_id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produk berhasil diperbarui"
+                    },
+                    "404": {
+                        "description": "Produk tidak ditemukan"
+                    },
+                    "400": {
+                        "description": "Data yang dikirim tidak valid"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Menghapus produk berdasarkan ID",
+                "operationId": "fa380b2b091ac0837af667a870bf0339",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Produk",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produk berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Produk tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/produk/moreThan": {
+            "get": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Mendapatkan produk dengan harga lebih dari threshold",
+                "operationId": "b70fffecac3a9621283f59433f199ae2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "threshold": {
+                                        "type": "number",
+                                        "example": 100000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produk berhasil ditemukan"
+                    },
+                    "404": {
+                        "description": "Produk tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/produk/search": {
+            "get": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Mencari produk berdasarkan nama",
+                "operationId": "03123ded056e9573a7f025cb3cc0b393",
+                "parameters": [
+                    {
+                        "name": "nama_produk",
+                        "in": "query",
+                        "description": "Nama produk yang dicari",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produk berhasil ditemukan"
+                    },
+                    "404": {
+                        "description": "Produk tidak ditemukan"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Kategori",
+            "description": "Kategori"
+        },
+        {
+            "name": "Produk",
+            "description": "Produk"
+        }
+    ]
+}

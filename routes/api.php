@@ -22,4 +22,7 @@ Route::apiResource('/kategori', KategoriController::class);
 
 use App\Http\Controllers\ProdukController;
 
+Route::get('/produk/search', [ProdukController::class, 'search']);
 Route::apiResource('/produk', ProdukController::class);
+Route::post('/produk/moreThan', [ProdukController::class,  'moreThan']);
+

@@ -10,7 +10,15 @@ use App\Http\Resources\KategoriResource;
 class KategoriController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/kategori",
+     *     tags={"Kategori"},
+     *     summary="Ambil semua kategori",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Berhasil mengambil data kategori"
+     *     )
+     * )
      */
     public function index()
     {
@@ -23,22 +31,33 @@ class KategoriController extends Controller
         // DIUBAH CUMA AMBIL DATA KATEGORINYA TAMPA ADA PAGINATE (tujuan = nampilin di view buat selector kategori)
         try {
             $kategori = Kategori::all();
-            return successResponse(KategoriResource::collection($kategori),  'Data Kategori Berhasil Diambil');
-        }catch(\Exception $e) {
+            return successResponse(KategoriResource::collection($kategori), 'Data Kategori Berhasil Diambil');
+        } catch (\Exception $e) {
             return errorResponse($e->getMessage(), 500);
         }
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/kategori",
+     *     tags={"Kategori"},
+     *     summary="Buat kategori baru",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nama_kategori", type="string", example="Elektronik"),
+     *             @OA\Property(property="deskripsi", type="string", example="Barang elektronik")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Kategori berhasil dibuat"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Data tidak valid"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -47,16 +66,35 @@ class KategoriController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
-        try{
+        try {
             $kategori = Kategori::create($validatedData);
             return successResponse(new KategoriResource($kategori), 'Kategori berhasil dibuat', 201);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return errorResponse('Gagal membuat kategori', 500);
         }
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/kategori/{id}",
+     *     tags={"Kategori"},
+     *     summary="Ambil kategori berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID Kategori",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Data kategori ditemukan"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kategori tidak ditemukan"
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -65,15 +103,33 @@ class KategoriController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/kategori/{id}",
+     *     tags={"Kategori"},
+     *     summary="Perbarui kategori berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID Kategori",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nama_kategori", type="string", example="Elektronik"),
+     *             @OA\Property(property="deskripsi", type="string", example="Barang elektronik")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Kategori berhasil diperbarui"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kategori tidak ditemukan"
+     *     )
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -82,27 +138,46 @@ class KategoriController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
-        try{
+        try {
             $kategori = Kategori::findOrFail($id);
             $kategori->update($validatedData);
             return successResponse(new KategoriResource($kategori), 'Kategori berhasil diupdate');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return errorResponse('Gagal memperbarui kategori', 500);
         }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/kategori/{id}",
+     *     tags={"Kategori"},
+     *     summary="Hapus kategori berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID Kategori",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Kategori berhasil dihapus"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Kategori tidak ditemukan"
+     *     )
+     * )
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         try {
             $kategori = Kategori::findOrFail($id);
             $kategori->delete();
             return successResponse(null, 'Kategori berhasil dihapus');
-        // } catch(ModelNotFoundException $e){
-        //     return notFoundResponse('Kategori tidak ditemukan');
-        } catch(\Exception $e){
+            // } catch(ModelNotFoundException $e){
+            //     return notFoundResponse('Kategori tidak ditemukan');
+        } catch (\Exception $e) {
             return errorResponse('Gagal menghapus kategori', 500);
         }
     }

@@ -40,11 +40,6 @@ class ProdukCollection extends ResourceCollection
 
         return [
             'data' => $this->collection,
-            'metadata' => [
-                'total_produk' =>  $this->collection->count(),
-                'average_price' => $this->collection->avg('harga'),
-                'timestamp' => now()->toDateTimeString(),
-            ],
             'pagination' => [
                 'total' => $this->total(),
                 'count' => $this->count(),

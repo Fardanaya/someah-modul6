@@ -17,6 +17,13 @@
 
     <div class="container mt-4">
         <h2>Data Produk</h2>
+        {{-- Button filter kategori --}}
+        <div class="form-group">
+            <label for="filter_kategori">Filter Kategori</label>
+            <select id="filter_kategori" class="form-control mb-3">
+                <option value="">Semua Kategori</option>
+            </select>
+        </div>
         <button id="addProdukBtn" class="btn btn-primary mb-3">Add Produk</button>
         <table class="table table-bordered" id="produk-table">
             <thead>
@@ -59,6 +66,7 @@
                         <div class="form-group">
                             <label for="kategori_id">Kategori</label>
                             <select class="form-control" id="kategori_id" name="kategori_id" required>
+                                <option>Pilih kategori</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -73,29 +81,30 @@
             $.get("{{ url('api/kategori') }}", function(data) {
                 $.each(data.data, function(index, kategori) {
                     $('#kategori_id').append(new Option(kategori.nama_kategori, kategori.id));
+                    $('#filter_kategori').append(new Option(kategori.nama_kategori, kategori.id));
                 });
             });
 
+            var allProducts = []; //filtering dari client site biar gak ngeberatin hit api
             var table = $('#produk-table').DataTable({
                 processing: true,
-                serverSide: false,
                 ajax: {
                     url: "{{ url('api/produk') }}",
-                    dataSrc: function (json) {
-                        return json.data.data;
+                    dataSrc: function(json) {
+                        allProducts = json.data.data;
+                        return allProducts;
                     },
                     error: function(xhr, status, error) {
                         var errorMessage = "Terjadi kesalahan: " + xhr.status;
                         alert(errorMessage);
-                        $('#kategori-table').DataTable().clear().draw();
                     }
                 },
                 columns: [
-                    {data: 'id',name: 'id'},
-                    {data: 'nama_produk',name: 'nama_produk'},
-                    {data: 'harga',name: 'harga'},
-                    {data: 'deskripsi',name: 'deskripsi'},
-                    {data: 'kategori.nama_kategori',name: 'kategori.nama_kategori'},
+                    { data: 'id', name: 'id' },
+                    { data: 'nama_produk', name: 'nama_produk' },
+                    { data: 'harga', name: 'harga' },
+                    { data: 'deskripsi', name: 'deskripsi' },
+                    { data: 'kategori.nama_kategori', name: 'kategori.nama_kategori' },
                     {
                         data: null,
                         name: 'actions',
@@ -103,10 +112,31 @@
                             return `
                             <button class="btn btn-sm btn-primary edit-btn" data-id="${row.id}">Edit</button>
                             <button class="btn btn-sm btn-danger delete-btn" data-id="${row.id}">Delete</button>
-                        `;
+                            `;
                         }
                     }
-                ]
+                ],
+                paging: false, 
+            });
+
+            // di trigger ketika selector filter ada perubahan 
+            function renderTable(products) {
+                table.clear();
+                table.rows.add(products);
+                table.draw();
+            }
+
+            $('#filter_kategori').change(function() {
+                var selectedKategori = $(this).val();
+                var filteredProducts = allProducts;
+
+                if (selectedKategori) {
+                    filteredProducts = allProducts.filter(function(product) {
+                        return product.kategori.id == selectedKategori;
+                    });
+                }
+
+                renderTable(filteredProducts);
             });
 
             $('#addProdukBtn').click(function() {
@@ -177,4 +207,3 @@
 </body>
 
 </html>
-
