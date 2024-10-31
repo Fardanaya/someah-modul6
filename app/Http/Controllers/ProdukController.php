@@ -37,7 +37,7 @@ class ProdukController extends Controller
         // return new ProdukCollection($produks);
 
         try {
-            $produks = Produk::with('kategori')->paginate(10);
+            $produks = Produk::with('kategori')->paginate(20);
             return successResponse(new ProdukCollection($produks), 'Produk berhasil diambil', 200);
         } catch(\Exception $e) {
             return errorResponse(null, 'Produk tidak ditemukan', 404);

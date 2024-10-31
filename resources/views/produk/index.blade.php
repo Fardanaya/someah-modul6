@@ -88,6 +88,7 @@
             var allProducts = []; //filtering dari client site biar gak ngeberatin hit api
             var table = $('#produk-table').DataTable({
                 processing: true,
+                serverSide: false,
                 ajax: {
                     url: "{{ url('api/produk') }}",
                     dataSrc: function(json) {
@@ -116,7 +117,6 @@
                         }
                     }
                 ],
-                paging: false, 
             });
 
             // di trigger ketika selector filter ada perubahan 
