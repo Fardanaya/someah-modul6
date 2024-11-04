@@ -234,34 +234,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Detail produk ditemukan",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "string",
-                                            "format": "uuid"
-                                        },
-                                        "nama_produk": {
-                                            "type": "string"
-                                        },
-                                        "harga": {
-                                            "type": "number",
-                                            "format": "float"
-                                        },
-                                        "deskripsi": {
-                                            "type": "string"
-                                        },
-                                        "kategori_id": {
-                                            "type": "string",
-                                            "format": "uuid"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Detail produk ditemukan"
                     },
                     "404": {
                         "description": "Produk tidak ditemukan"
@@ -355,29 +328,21 @@
                 }
             }
         },
-        "/api/produk/moreThan": {
+        "/api/produk/filterHarga": {
             "get": {
                 "tags": [
                     "Produk"
                 ],
                 "summary": "Mendapatkan produk dengan harga lebih dari threshold",
-                "operationId": "b70fffecac3a9621283f59433f199ae2",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "threshold": {
-                                        "type": "number",
-                                        "example": 100000
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
+                "operationId": "47b7e114a0710a7001c1b69bba5d096e",
+                "parameters": [
+                    {
+                        "name": "threshold",
+                        "in": "query",
+                        "description": "masukkan harga minimal yang akan dicari",
+                        "required": true
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Produk berhasil ditemukan"

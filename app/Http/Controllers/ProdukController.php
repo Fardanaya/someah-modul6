@@ -213,14 +213,14 @@ class ProdukController extends Controller
     // GET WITH PRICE MIN
     /**
      * @OA\Get(
-     *     path="/api/produk/moreThan",
+     *     path="/api/produk/filterHarga",
      *     tags={"Produk"},
      *     summary="Mendapatkan produk dengan harga lebih dari threshold",
-     *     @OA\RequestBody(
+     *     @OA\Parameter(
+     *         name="threshold",
+     *         in="query",
      *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="threshold", type="number", example=100000),
-     *         )
+     *         description="masukkan harga minimal yang akan dicari",
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -232,9 +232,9 @@ class ProdukController extends Controller
      *     )
      * )
      */
-    public function moreThan(Request $request) {
+    public function filterHarga(Request $request) {
         try {
-            $threshold = $request->input('threshold');
+            $threshold = $request->query('threshold');
             $produk = Produk::where('harga',  '>', $threshold)->paginate(10);
             return successResponse(new ProdukCollection($produk), "Produk dengan harga lebih dari ". $threshold . " berhasil ditemukan", 200);
         } catch(\Exception $e) {
@@ -266,15 +266,16 @@ class ProdukController extends Controller
      * )
      */
     public function search(Request $request) {
-        // Implementasi pencarian produk berdasarkan nama
-        $request->validate(['nama_produk' => 'required|string']);
-        $nama_produk = $request->query('nama_produk');
-        $produk = Produk::where('nama_produk', 'like', '%' . $nama_produk . '%')->paginate(10);
-        
-        if ($produk->isEmpty()) {
-            return errorResponse(null, 'Produk tidak ditemukan', 404);
-        }
-        
-        return successResponse(new ProdukCollection($produk), 'Produk berhasil ditemukan', 200);
+        try {
+            $request->validate(['nama_produk' => 'required|string']);
+            $nama_produk = $request->query('nama_produk');
+            $produk = Produk::where('nama_produk', 'like', '%' . $nama_produk . '%')->paginate(10);
+                if ($produk->isEmpty()) {
+                    return errorResponse(null, 'Produk tidak ditemukan', 404);
+                }
+            return successResponse(new ProdukCollection($produk), 'Produk berhasil ditemukan', 200);
+        }  catch(\Exception $e) {
+            return  errorResponse('Gagal mengambil data produk', $e->getMessage());
+        }     
     }
 }
