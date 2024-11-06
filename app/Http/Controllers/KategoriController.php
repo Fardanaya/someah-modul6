@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Kategori;
 use App\Http\Resources\KategoriResource;
 
+
 class KategoriController extends Controller
 {
     /**
@@ -14,10 +15,15 @@ class KategoriController extends Controller
      *     path="/api/kategori",
      *     tags={"Kategori"},
      *     summary="Ambil semua kategori",
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Berhasil mengambil data kategori"
-     *     )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unautorized"
+     *     ),
      * )
      */
     public function index()

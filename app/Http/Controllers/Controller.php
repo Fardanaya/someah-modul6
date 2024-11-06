@@ -8,6 +8,12 @@ namespace App\Http\Controllers;
     *      title="API Modul 6",
     *      description="Dokumentasi API untuk Modul 6",
     *  )
+    * @OA\SecurityScheme(
+    *      type="http",
+    *      scheme="bearer",
+    *      bearerFormat="JWT",
+    *      securityScheme="bearerAuth",
+    *  )
     */
 abstract class Controller
 {

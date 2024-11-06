@@ -16,8 +16,16 @@
                 "responses": {
                     "200": {
                         "description": "Berhasil mengambil data kategori"
+                    },
+                    "401": {
+                        "description": "Unautorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -379,6 +387,15 @@
                         "description": "Produk tidak ditemukan"
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },

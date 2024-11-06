@@ -3,12 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Middleware\CustomJWTMiddleware;
+
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+
 Route::middleware([CustomJWTMiddleware::class])->group(function () {
+    // Route API Kategori
     Route::apiResource('kategori', KategoriController::class);
+    
+    // Route API Produk
+    Route::apiResource('produk', ProdukController::class);
+    Route::get('/produk/search', [ProdukController::class, 'search']);
+    Route::get('/produk/filterHarga', [ProdukController::class,  'filterHarga']);
 });
 
 
@@ -22,18 +31,16 @@ Route::middleware([CustomJWTMiddleware::class])->group(function () {
 // Route::apiResource('/produk', ProdukController::class);
 
 // tugas
-use App\Http\Controllers\CustomerController;
+// use App\Http\Controllers\CustomerController;
 
-Route::apiResource('/customer', CustomerController::class);
+// Route::apiResource('/customer', CustomerController::class);
 
 //JUMAT
 // use App\Http\Controllers\KategoriController;
 
 // Route::apiResource('/kategori', KategoriController::class);
 
-use App\Http\Controllers\ProdukController;
+// use App\Http\Controllers\ProdukController;
 
-Route::get('/produk/search', [ProdukController::class, 'search']);
-Route::get('/produk/filterHarga', [ProdukController::class,  'filterHarga']);
-Route::apiResource('/produk', ProdukController::class);
+// Route::apiResource('/produk', ProdukController::class);
 
